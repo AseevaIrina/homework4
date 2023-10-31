@@ -1,34 +1,24 @@
 import React from 'react';
-import {useFetch} from "./useFetch";
-
-interface IData {
-  userId: number
-  id: number
-  title: string
-  body: string
-}
+import {useLocalStorage} from "./useLocalStorage";
 
 function App() {
-  const {
-    data,
-    error,
-    isLoading,
-    refetch
-  } = useFetch('https://jsonplaceholder.typicode.com/posts');
-  return (
+  const [token, {setItem, removeItem}] = useLocalStorage('token');
+
+  return(
       <div>
-        <button onClick={() => refetch({
-          params: {
-            _limit: 3
-          }
-        })}>
-          Перезапросить
-        </button>
-        <p>{isLoading && 'Загрузка...'}</p>
-        <p>{error && 'Произошла ошибка'}</p>
-        {data && !isLoading && data.map((item: IData) => <div key={item.id}>{item.title}</div>) }
+        <p>
+          Твой токен: { token }
+        </p>
+        <div>
+          <button onClick={() => setItem('new-token')}>
+            Задать токен
+          </button>
+          <button onClick={() => removeItem()}>
+            Удалить токен
+          </button>
+        </div>
       </div>
-  );
+  )
 }
 
 export default App;

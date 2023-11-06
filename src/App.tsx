@@ -1,13 +1,18 @@
 import React from 'react';
-import {useViewportSize} from "./useViewportSize";
+import {useWindowScroll} from "./useWindowScroll";
 
 function App() {
-    const { height, width } = useViewportSize();
+    const [scroll, scrollTo] = useWindowScroll();
 
     return (
-        <>
-            Width: {width}, height: {height}
-        </>
+        <div style={{height:3000, width:2500}}>
+            <div style={{position:'fixed', top:0, left:0}}>
+                <p>
+                    Scroll position x: {scroll.x}, y: {scroll.y}
+                </p>
+                <button onClick={() => scrollTo({ y: 0 })}>Scroll to top</button>
+            </div>
+        </div>
     );
 }
 
